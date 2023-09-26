@@ -11,6 +11,7 @@ A simple To-Do application built using the MERN stack.
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
+    - [Test](#test)
 
 ## About
 
@@ -55,4 +56,12 @@ Make sure you have the following software installed on your system:
    ```bash
    npm install
    npm run dev
+   ```
+
+### Test
+
+1. Run the server tests(Jest):
+
+   ```bash
+   npm run test
    ```
