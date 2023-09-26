@@ -1,58 +1,8 @@
-# MERN To-Do App
+# React + Vite
 
-A simple To-Do application built using the MERN stack.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Table of Contents
+Currently, two official plugins are available:
 
-- [MERN To-Do App](#mern-to-do-app)
-  - [Table of Contents](#table-of-contents)
-  - [About](#about)
-  - [Features](#features)
-  - [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
-
-## About
-
-This project is a basic To-Do application implemented using the MERN (MongoDB, Express.js, React, Node.js) stack. It allows users to create, read, update, and delete tasks.
-
-## Features
-
-- User authentication
-- Create, read, update, and delete tasks
-- Responsive and intuitive user interface
-
-## Getting Started
-
-Follow the instructions below to set up and run the project locally on your machine.
-
-### Prerequisites
-
-Make sure you have the following software installed on your system:
-
-- Node.js
-- ReactJS
-- MongoDB
-
-### Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/bernardoaquino/mern-todo-app.git
-
-   ```
-
-2. Run the server:
-
-   ```bash
-   docker compose up
-
-   ```
-
-3. Run the client:
-
-   ```bash
-   npm install
-   npm run dev
-   ```
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
