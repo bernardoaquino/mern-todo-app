@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
 
   jwt.verify(token, process.env.SECRET, (err, decoded) => {
     if (err) {
-      return res.status(403).send('Invalid credentials');
+      return res.status(401).send('Invalid credentials');
     }
 
     // If verification is successful, you can attach the decoded token payload to the request for later use
