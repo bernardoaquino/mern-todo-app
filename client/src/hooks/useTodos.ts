@@ -28,8 +28,7 @@ const useTodos = (): UseTodoResponse => {
       const responseBody = await response.json();
       
       setError(false);
-      console.log(responseBody)
-      // setTodos(responseBody)
+      setTodos(responseBody)
     }
   }
 
