@@ -40,6 +40,9 @@ const COLORS = {
   analogue: {
     pure: '#76C04D',
   },
+  danger: {
+    pure: '#D83F31'
+  },
   neutral: {
       100: '#FFFFFF',
       80: '#E7E7E7',

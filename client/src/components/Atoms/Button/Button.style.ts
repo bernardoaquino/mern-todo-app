@@ -15,6 +15,10 @@ const ColorStyling = {
     color: ${(props) => props?.theme?.color?.neutral?.[100]};
     background-color: ${(props) => props?.theme?.color?.brand?.normal};
   `,
+  'danger': css`
+    color: ${(props) => props?.theme?.color?.neutral?.[100]};
+    background-color: ${(props) => props?.theme?.color?.danger?.pure};
+  `,
   'neutral': css`
     color: ${(props) => props?.theme?.color?.neutral?.[100]};
     background-color: ${(props) => props?.theme?.color?.neutral?.[80]};

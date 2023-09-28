@@ -4,7 +4,7 @@ import * as El from './Button.style';
 
 export type ButtonProps = {
   children?: React.ReactElement | string;
-  color?: 'primary' | 'secondary' | 'neutral';
+  color?: 'primary' | 'secondary' | 'neutral' | 'danger';
   disabled?: boolean;
   icon?: any;
   onClick?: (MouseEventHandler<HTMLButtonElement> & Function) | undefined;
