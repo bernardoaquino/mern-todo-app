@@ -29,7 +29,8 @@
       "providers/*": ["./src/providers/*"],
       "types/*": ["./src/types/*"],
       "localUtils/*": ["./src/utils/*"]
-    }
+    },
+    "types": ["vite/client"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.spec.js"],
   "exclude": ["node_modules"]
