@@ -8,10 +8,11 @@ services:
     restart: always
     volumes:
       - mongo_data:/data/db
-
+    networks:
+      - my-network
   # Node api service
   api:
-    build: .
+    build: ./dockerfile
     ports:
       # local->container
       - 8080:8080
@@ -20,6 +21,11 @@ services:
       MONGODB_URI: mongodb://mongo_db:27017/mydb
     depends_on:
       - mongo_db
-
+    networks:
+      - my-network
 volumes:
   mongo_data: {}
+
+networks:
+  my-network:
+    driver: bridge
