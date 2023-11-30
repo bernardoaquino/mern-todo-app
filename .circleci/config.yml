@@ -27,6 +27,7 @@ jobs:
       - run:
           name: Build docker image
           command: |
+            cd ./client
             docker build -t thallesnct/gce-front -t thallesnct/gce-front:latest .
             echo $DOCKER_PASSWORD | docker login u thallesnct --password-stdin
             doker push thallesnct/gce-front:latest
