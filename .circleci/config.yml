@@ -9,7 +9,8 @@ jobs:
       - checkout
       - node/install:
           node-version: "18.16"
-      - node/install-packages
+      - node/install-packages:
+        app-dir: ~/client
       - run:
           command: cd ./client && npm run test
   build-and-test-back:
@@ -19,7 +20,8 @@ jobs:
       - checkout
       - node/install:
           node-version: "18.16"
-      - node/install-packages
+      - node/install-packages:
+        app-dir: ~/server
       - run:
           command: cd ./server && npm run test
 workflows:
