@@ -75,7 +75,7 @@ jobs:
             set AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY 
             set AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID 
             set AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
-            docker context create --help
+            docker --version
             docker context create ecs dockerDeploy --from-env
             docker compose up
 workflows:
