@@ -79,7 +79,7 @@ jobs:
             rm /tmp/sa_key.json
             gcloud config set project code-vps-360503
             gcloud --quiet compute scp ./docker-compose.yml instance-1:"/home/circleci"  --zone=us-central1-a --strict-host-key-checking=no 
-            gcloud --quiet compute ssh --zone "us-central1-a" "instance-1" --project "code-vps-360503" --strict-host-key-checking=no --command="docker compose build api front --quiet && docker compose up -d"
+            gcloud --quiet compute ssh --zone "us-central1-a" "instance-1" --project "code-vps-360503" --strict-host-key-checking=no --user-output-enabled --command="sudo groupadd docker && sudo usermod -aG docker $USER && newgrp docker && docker compose build api front --quiet && docker compose up -d"
 workflows:
   build_test_deploy:
     jobs:
