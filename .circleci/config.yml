@@ -1,0 +1,97 @@
+version: 2.1
+orbs:
+  node: circleci/node@5.0.2
+jobs:
+  build-and-test-front:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - checkout
+      - node/install:
+          node-version: "18.16"
+      - node/install-packages:
+          app-dir: ~/project/client
+      - run:
+          command: cd ./client && npm run test
+  build-docker-image-front:
+    docker:
+      - image: "cimg/base:stable"
+    environment:
+      - VITE_API_BASE_URL: https://api-gcs.thallesnc.dev/
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+      - node/install:
+          node-version: "18.16"
+      - node/install-packages:
+          app-dir: ~/project/client
+      - run:
+          name: Build docker image
+          command: |
+            cd ./client
+            docker build -t thallesnct/gce-front -t thallesnct/gce-front:latest .
+            echo $DOCKER_PASSWORD | docker login -u thallesnct --password-stdin
+            docker push thallesnct/gce-front:latest
+  build-and-test-api:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - checkout
+      - node/install:
+          node-version: "18.16"
+      - node/install-packages:
+          app-dir: ~/project/server
+      - run:
+          command: cd ./server && npm run test
+  build-docker-image-api:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+      - node/install:
+          node-version: "18.16"
+      - node/install-packages:
+          app-dir: ~/project/server
+      - run:
+          name: Build docker image
+          command: |
+            cd ./server
+            docker build -t thallesnct/gce-api -t thallesnct/gce-api:latest .
+            echo $DOCKER_PASSWORD | docker login -u thallesnct --password-stdin
+            docker push thallesnct/gce-api:latest
+  deploy:
+    docker:
+      - image: "cimg/gcp:2023.09"
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+      - node/install:
+          node-version: "18.16"
+      - run:
+          name: Build compose and upload to GCP
+          command: |
+            echo $GCLOUD_SERVICE_KEY > /tmp/sa_key.json
+            gcloud auth activate-service-account --key-file=/tmp/sa_key.json
+            rm /tmp/sa_key.json
+            gcloud config set project code-vps-360503
+            gcloud --quiet compute scp ./docker-compose.yml instance-1:"/home/circleci"  --zone=us-central1-a --strict-host-key-checking=no 
+            gcloud --quiet compute ssh --zone "us-central1-a" "instance-1" --project "code-vps-360503" --strict-host-key-checking=no --user-output-enabled --command="cd /home/circleci && pwd && docker-compose build api front && docker-compose up -d"
+workflows:
+  build_test_deploy:
+    jobs:
+      - build-and-test-front
+      - build-and-test-api
+      - build-docker-image-front:
+          requires:
+            - build-and-test-front
+      - build-docker-image-api:
+          requires:
+            - build-and-test-front
+      - deploy:
+          requires:
+            - build-docker-image-api
+            - build-docker-image-front

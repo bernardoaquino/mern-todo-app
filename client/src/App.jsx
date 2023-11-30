@@ -1,31 +1,32 @@
 /* eslint-disable react/prop-types */
-import React, { useContext, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import { LoginPage } from "./pages/LoginPage";
-import { TodoPage } from "./pages/TodoPage";
-import "./App.css";
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { ThemeProvider } from "styled-components";
+import 'react-toastify/dist/ReactToastify.css';
 
-// Create context with an initial value
-export const TokenContext = React.createContext(null);
+/** Theme */
+import { themeConfig } from 'localUtils/theme'
 
-const ProtectedRoute = ({ element }) => {
-  const [token] = useContext(TokenContext);
-  return token ? element : <Navigate to="/login" />;
-};
+/** Style */
+import GlobalStyle from 'localUtils/getGlobalStyle'
+import { AuthProvider } from 'providers/Auth';
+
+/** Routes */
+import { browserRouterRoutes } from '~/routes/routes'
+
+const router = createBrowserRouter(browserRouterRoutes)
 
 function App() {
-  // Initialize the context value with useState
-  const [token, setToken] = useState(null);
-
   return (
     <div className="App">
-      <TokenContext.Provider value={[token, setToken]}>
-        <Routes>
-          {/* Define route elements outside JSX */}
-          <Route path="/" element={<ProtectedRoute element={<TodoPage />} />} />
-          <Route path="login" element={<LoginPage />} />
-        </Routes>
-      </TokenContext.Provider>
+      <ThemeProvider theme={themeConfig}>
+        <ToastContainer />
+        <GlobalStyle />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </ThemeProvider>
     </div>
   );
 }
