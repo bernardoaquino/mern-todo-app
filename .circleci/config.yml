@@ -72,14 +72,14 @@ jobs:
       - node/install:
           node-version: "18.16"
       - run:
-          name: Build compose and upload to ECS
+          name: Build compose and upload to GCP
           command: |
             echo $GCLOUD_SERVICE_KEY > /tmp/sa_key.json
             gcloud auth activate-service-account --key-file=/tmp/sa_key.json
             rm /tmp/sa_key.json
             gcloud config set project code-vps-360503
             gcloud --quiet compute scp ./docker-compose.yml instance-1:"/home/circleci"  --zone=us-central1-a --strict-host-key-checking=no 
-            gcloud --quiet compute ssh --zone "us-central1-a" "instance-1" --project "code-vps-360503" --strict-host-key-checking=no --command="docker build . --quiet && docker compose restart mern-todo-app-r-api-1 && docker compose restart mern-todo-app-r-front-1"
+            gcloud --quiet compute ssh --zone "us-central1-a" "instance-1" --project "code-vps-360503" --strict-host-key-checking=no --command="docker compose build . --quiet && docker compose restart mern-todo-app-r-api-1 && docker compose restart mern-todo-app-r-front-1"
             # set AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY 
             # set AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID 
             # set AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
