@@ -62,7 +62,7 @@ jobs:
             docker push thallesnct/gce-api:latest
   deploy:
     docker:
-      - image: "cimg/base:stable"
+      - image: "cimg/gcp:2023.09"
     steps:
       - checkout
       - setup_remote_docker:
@@ -73,12 +73,13 @@ jobs:
       - run:
           name: Build compose and upload to ECS
           command: |
-            set AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY 
-            set AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID 
-            set AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
-            docker --version
-            docker context create ecs dockerDeploy --from-env
-            docker compose up
+            gcloud --version
+            # set AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY 
+            # set AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID 
+            # set AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+            # docker --version
+            # docker context create ecs dockerDeploy --from-env
+            # docker compose up
 workflows:
   build_test_deploy:
     jobs:
