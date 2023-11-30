@@ -30,7 +30,7 @@ jobs:
             cd ./client
             docker build -t thallesnct/gce-front -t thallesnct/gce-front:latest .
             echo $DOCKER_PASSWORD | docker login -u thallesnct --password-stdin
-            doker push thallesnct/gce-front:latest
+            docker push thallesnct/gce-front:latest
   build-and-test-back:
     docker:
       - image: "cimg/base:stable"
