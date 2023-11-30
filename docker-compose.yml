@@ -3,7 +3,6 @@ version: '3.9'
 services:
   # Mongodb service
   mongo_db:
-    container_name: db_container
     image: mongo:latest
     restart: always
     volumes:
@@ -12,15 +11,25 @@ services:
       - my-network
   # Node api service
   api:
-    build: ./Dockerfile
+    build: server
     ports:
       # local->container
-      - 8080:8080
+      - 3030:3030
     environment:
-      PORT: 8080
+      PORT: 3030
       MONGODB_URI: mongodb://mongo_db:27017/mydb
     depends_on:
       - mongo_db
+    networks:
+      - my-network
+  front:
+    build: client
+    ports:
+      - 3003:4173
+    environment:
+      VITE_API_BASE_URL: api
+    depends_on:
+      - api
     networks:
       - my-network
 volumes:
