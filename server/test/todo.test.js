@@ -1,61 +1,91 @@
 const request = require('supertest');
-const { app } = require('../src/index');
+const express = require('express');
+const router = require('../src/router');
+const mongoose = require('mongoose');
 
-let token;
+const app = express();
+app.use(express.json());
+app.use(router);
 
-beforeEach(() => {
-  token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NTczOTM1NX0.JQOSCu9tNwxdJd4tPe-ZiBtMZl8yPuCiQ3OM5b_1ruA';
+// Connect to the database and start the server
+beforeAll(async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+  }
 });
 
-describe('login', () => {
-  describe('login route', () => {
-    describe('if login correct', () => {
-      it('should return 200', async () => {
-        const response = await request(app).post('/login').send({
-          password: 'abc',
-        });
-        expect(response.statusCode).toBe(200);
-      });
-    });
+afterAll(async () => {
+  await mongoose.connection.close();
+});
 
-    describe('if login incorrect', () => {
-      it('should return 401', async () => {
-        const response = await request(app).post('/login').send({
-          password: 'abcd',
-        });
+describe('API Routes', () => {
+  let token;
+  let todoId;
 
-        expect(response.statusCode).toBe(401);
-      });
-    });
+  beforeAll(async () => {
+    const response = await request(app)
+      .post('/login')
+      .send({ password: 'abc' });
+    token = response.body.token;
   });
-});
 
-describe('todo', () => {
-  describe('get todos route', () => {
-    describe('if todos does not exists', () => {
-      it('should return 200, but empty array', async () => {
-        const response = await request(app)
-          .get('/todos')
-          .set('Authorization', `Bearer ${token}`);
-        expect(response.statusCode).toBe(200, []);
-      });
-    });
+  test('POST /todos', async () => {
+    const response = await request(app)
+      .post('/todos')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ text: 'Test Todo' });
 
-    describe('if not authenticated', () => {
-      it('should return 401', async () => {
-        const response = await request(app).get('/todos');
-        expect(response.statusCode).toBe(401);
-      });
-    });
+    expect(response.statusCode).toBe(201);
+    todoId = response.body._id; // Save the ID of the created todo
+  });
 
-    describe('if not authenticated (incorrect token)', () => {
-      it('should return 401', async () => {
-        const response = await request(app)
-          .get('/todos')
-          .set('Authorization', `Bearer ${token}a`);
-        expect(response.statusCode).toBe(401);
-      });
-    });
+  test('GET /todos', async () => {
+    const response = await request(app)
+      .get('/todos')
+      .set('Authorization', `Bearer ${token}`);
+    expect(response.statusCode).toBe(200);
+  });
+
+  test('PUT /todos/:id', async () => {
+    const response = await request(app)
+      .put(`/todos/${todoId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ text: 'Updated Todo', completed: true });
+    expect(response.statusCode).toBe(200);
+  });
+
+  test('DELETE /todos/:id', async () => {
+    const response = await request(app)
+      .delete(`/todos/${todoId}`)
+      .set('Authorization', `Bearer ${token}`);
+    expect(response.statusCode).toBe(204);
+  });
+
+  /** 401 Tests */
+
+  test('POST /todos without token', async () => {
+    const response = await request(app)
+      .post('/todos')
+      .send({ text: 'Test Todo' });
+    expect(response.statusCode).toBe(401);
+  });
+
+  test('GET /todos without token', async () => {
+    const response = await request(app).get('/todos');
+    expect(response.statusCode).toBe(401);
+  });
+
+  test('PUT /todos/:id without token', async () => {
+    const response = await request(app)
+      .put(`/todos/${todoId}`)
+      .send({ text: 'Updated Todo', completed: true });
+    expect(response.statusCode).toBe(401);
+  });
+
+  test('DELETE /todos/:id without token', async () => {
+    const response = await request(app).delete(`/todos/${todoId}`);
+    expect(response.statusCode).toBe(401);
   });
 });
