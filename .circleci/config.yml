@@ -10,7 +10,7 @@ jobs:
       - node/install:
           node-version: "18.16"
       - node/install-packages:
-        app-dir: ~/client
+        app-dir: ~/project/client
       - run:
           command: cd ./client && npm run test
   build-and-test-back:
@@ -21,7 +21,7 @@ jobs:
       - node/install:
           node-version: "18.16"
       - node/install-packages:
-        app-dir: ~/server
+        app-dir: ~/project/server
       - run:
           command: cd ./server && npm run test
 workflows:
