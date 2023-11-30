@@ -18,18 +18,18 @@ jobs:
   build-docker-image-front:
     docker:
       - image: circleci/node:12
-      steps:
-        - checkout
-        - node/install:
-            node-version: "18.16"
-        - node/install-packages:
-            app-dir: ~/project/client
-        - run:
-            name: Build docker image
-            command: |
-              docker build -t thallesnct/gce-front -t thallesnct/gce-front:latest .
-              echo $DOCKER_PASSWORD | docker login u thallesnct --password-stdin
-              doker push thallesnct/gce-front:latest
+    steps:
+      - checkout
+      - node/install:
+          node-version: "18.16"
+      - node/install-packages:
+          app-dir: ~/project/client
+      - run:
+          name: Build docker image
+          command: |
+            docker build -t thallesnct/gce-front -t thallesnct/gce-front:latest .
+            echo $DOCKER_PASSWORD | docker login u thallesnct --password-stdin
+            doker push thallesnct/gce-front:latest
   build-and-test-back:
     docker:
       - image: "cimg/base:stable"
