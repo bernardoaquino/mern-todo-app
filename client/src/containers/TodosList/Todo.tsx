@@ -1,8 +1,8 @@
 import React from 'react';
 
 /** Assets */
-import Check from 'assets/check.svg?react';
-import Trash from 'assets/trash.svg?react';
+import Check from 'assets/check.svg';
+import Trash from 'assets/trash.svg';
 
 /** Styles */
 import * as El from './Todo.styles';

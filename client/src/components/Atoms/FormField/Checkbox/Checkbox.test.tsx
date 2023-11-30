@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import Checkbox from './index';
+import Checkbox from '../Checkbox';
 
 import renderWithTheme from 'localUtils/renderWithTheme';
 
@@ -13,7 +13,7 @@ const mock = {
 
 describe('Checkbox', () => {
   it('Deve renderizar', () => {
-    renderWithTheme(<Checkbox />);
+    renderWithTheme(<Checkbox label={mock.label} />);
 
     const checkbox = screen.getByTestId('Checkbox');
 

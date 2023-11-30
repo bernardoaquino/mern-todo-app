@@ -1,12 +1,18 @@
 import { render, screen } from '@testing-library/react';
+import 'jest-styled-components'
 
 import Card from './index';
 
 import renderWithTheme from 'localUtils/renderWithTheme';
 
+type IconType = {
+  width: string;
+  height: string
+}
+
 const mock = {
     text: 'Test text',
-    icon: ({ width, height }) => <p>{width} {height}</p>
+    icon: ({ width, height }: IconType) => <p>{width} {height}</p>
 };
 
 describe('Card', () => {
@@ -23,9 +29,7 @@ describe('Card', () => {
 
     const card = screen.getByTestId('Card');
 
-    const style = window.getComputedStyle(card);
-
-    expect(style.padding).toBe('12px 16px');
+    expect(card).toHaveStyleRule('padding', '12px 16px');
   })
 
   it("Deve renderizar com fundo transparente de acordo com props", () => {
@@ -33,9 +37,7 @@ describe('Card', () => {
 
     const card = screen.getByTestId('Card');
 
-    const style = window.getComputedStyle(card);
-
-    expect(style.backgroundColor).toBe('transparent');
+    expect(card).toHaveStyleRule('background-color', 'transparent');
   })
 
   it("Deve chamar a função onClick ao ser clicado", () => {

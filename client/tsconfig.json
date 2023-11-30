@@ -30,7 +30,7 @@
       "types/*": ["./src/types/*"],
       "localUtils/*": ["./src/utils/*"]
     },
-    "types": ["vite/client"]
+    "types": ["vite/client", "jest", "@testing-library/jest-dom"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.spec.js"],
   "exclude": ["node_modules"]

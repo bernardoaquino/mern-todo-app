@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 type CardStyleProps = {
-    transparent?: boolean;
+    transparent: boolean;
     size: 'SM' | 'MD';
     isLink: boolean;
 }
