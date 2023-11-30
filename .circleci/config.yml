@@ -60,10 +60,32 @@ jobs:
             docker build -t thallesnct/gce-api -t thallesnct/gce-api:latest .
             echo $DOCKER_PASSWORD | docker login -u thallesnct --password-stdin
             docker push thallesnct/gce-api:latest
+  deploy:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+      - node/install:
+          node-version: "18.16"
+      - run:
+          name: Build compose and upload to ECS
+          command: |
+            docker context create ecs dockerDeploy --from-env
+            docker compose up
 workflows:
-  build-and-test:
+  build_test_deploy:
     jobs:
       - build-and-test-front
-      - build-docker-image-front
       - build-and-test-api
-      - build-docker-image-api
+      - build-docker-image-front:
+          requires:
+            - build-and-test-front
+      - build-docker-image-api:
+          requires:
+            - build-and-test-front
+      - deploy:
+          requires:
+            - build-docker-image-api
+            - build-docker-image-front
