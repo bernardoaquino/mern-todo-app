@@ -31,7 +31,7 @@ jobs:
             docker build -t thallesnct/gce-front -t thallesnct/gce-front:latest .
             echo $DOCKER_PASSWORD | docker login -u thallesnct --password-stdin
             docker push thallesnct/gce-front:latest
-  build-and-test-back:
+  build-and-test-api:
     docker:
       - image: "cimg/base:stable"
     steps:
@@ -42,9 +42,28 @@ jobs:
           app-dir: ~/project/server
       - run:
           command: cd ./server && npm run test
+  build-docker-image-api:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+      - node/install:
+          node-version: "18.16"
+      - node/install-packages:
+          app-dir: ~/project/server
+      - run:
+          name: Build docker image
+          command: |
+            cd ./server
+            docker build -t thallesnct/gce-api -t thallesnct/gce-api:latest .
+            echo $DOCKER_PASSWORD | docker login -u thallesnct --password-stdin
+            docker push thallesnct/gce-api:latest
 workflows:
   build-and-test:
     jobs:
       - build-and-test-front
       - build-docker-image-front
-      - build-and-test-back
+      - build-and-test-api
+      - build-docker-image-api
