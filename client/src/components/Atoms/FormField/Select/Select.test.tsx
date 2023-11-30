@@ -6,6 +6,7 @@ import Select from './index';
 import renderWithTheme from 'localUtils/renderWithTheme';
 
 const mock = {
+  label: 'Mock label',
   options: [
     {
       value: '1',

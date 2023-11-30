@@ -1,8 +1,13 @@
 import { render, screen } from '@testing-library/react';
+import 'jest-styled-components'
 
 import List from './index';
 
 import renderWithTheme from 'localUtils/renderWithTheme';
+
+type RenderProps = {
+  text: string
+}
 
 const mock = {
   list: [
@@ -11,14 +16,18 @@ const mock = {
     { text: 'C' },
     { text: 'D' },
   ],
-  render: ({ text }) => <p>{text}</p>,
+  render: ({ text }: RenderProps) => <p>{text}</p>,
   columns: 2,
   keyPrefix: 'mockPrefix',
 };
 
 describe('List', () => {
+  it('Deve dar true', () => {
+    expect(true).toBe(true)
+  })
+
   it('Deve renderizar', () => {
-    render(<List />);
+    render(<List items={mock.list} render={jest.fn()} />);
 
     const list = screen.getByTestId('List');
 
@@ -38,9 +47,7 @@ describe('List', () => {
 
     const list = screen.getByTestId('List');
 
-    const style = window.getComputedStyle(list);
-    
-    expect(style.gridTemplateColumns).toBe(`repeat(${mock.columns},1fr)`);
+    expect(list).toHaveStyleRule('grid-template-columns', `repeat(${mock.columns}, 1fr)`)
   })
 
   it('Deve renderizar a quantidade de itens correta com a função passada por props', () => {

@@ -61,13 +61,13 @@ type ButtonStyling = ButtonProps & {
 export const Button = styled.button<ButtonStyling>`
   outline: none;
   border: none;
-  border-radius: ${(props) => props.rounded ? '100vw' : props?.theme?.grid?.(1)};
+  border-radius: ${(props) => !!props.rounded ? '100vw' : props?.theme?.grid?.(1)};
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: ${(props) => props?.theme?.typography?.fontWeight?.bold};
-  width: ${(props) => props.fullWidth && '100%'};
+  width: ${(props) => !!props.fullWidth && '100%'};
 
   ${(props) => props.size && SizeStyling[props.size]};
   ${(props) => ColorStyling[props.color]};

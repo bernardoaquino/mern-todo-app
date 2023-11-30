@@ -12,7 +12,7 @@ services:
       - my-network
   # Node api service
   api:
-    build: ./dockerfile
+    build: ./Dockerfile
     ports:
       # local->container
       - 8080:8080

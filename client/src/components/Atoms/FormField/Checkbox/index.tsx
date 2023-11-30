@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 /** Assets */
-import Check from 'assets/check.svg';
+import Check from '~/assets/check.svg';
 
 /** Styles */
 import * as El from './Checkbox.style';

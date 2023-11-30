@@ -26,7 +26,7 @@ type ColumnConfig = {
   [index: number]: number
 }
 
-type FormProps = {
+export type FormProps = {
   sectionConfig?: SectionConfig;
   columnConfig?: ColumnConfig;
   fields: Field[];

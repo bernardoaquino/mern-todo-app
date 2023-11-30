@@ -1,0 +1,40 @@
+version: '3.3'
+
+services:
+  # Mongodb service
+  mongo_db:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - my-network
+  # Node api service
+  api:
+    image: thallesnct/gce-api
+    ports:
+      # local->container
+      - 3030:3030
+    environment:
+      PORT: 3030
+      MONGODB_URI: mongodb://mongo_db:27017/mydb
+    depends_on:
+      - mongo_db
+    networks:
+      - my-network
+  front:
+    image: thallesnct/gce-front
+    ports:
+      - 4173:4173
+    environment:
+      VITE_API_BASE_URL: https://gcs.thallesnc.dev/api
+    depends_on:
+      - api
+    networks:
+      - my-network
+volumes:
+  mongo_data: {}
+
+networks:
+  my-network:
+    driver: bridge

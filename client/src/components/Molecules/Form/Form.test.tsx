@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 
-import Form from './index';
+import Form, { FormProps } from './index';
 
 import renderWithTheme from 'localUtils/renderWithTheme';
 
-const mock = {
+const mock: FormProps = {
   fields: [
     {
       type: 'text',

@@ -2,9 +2,14 @@ import { render, screen } from '@testing-library/react';
 
 import Button from './index';
 
+type IconType = {
+  width: string;
+  height: string
+}
+
 const mock = {
     text: 'Test text',
-    icon: ({ width, height }) => <p>{width} {height}</p>
+    icon: ({ width, height }: IconType) => <p>{width} {height}</p>
 };
 
 describe('Button', () => {
