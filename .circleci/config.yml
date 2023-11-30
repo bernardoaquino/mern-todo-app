@@ -72,7 +72,7 @@ jobs:
       - run:
           name: Build compose and upload to ECS
           command: |
-            echo $GCLOUD_SERVICE_ACCOUNT > /tmp/sa_key.json
+            echo $GCLOUD_SERVICE_KEY > /tmp/sa_key.json
             gcloud auth activate-service-account --key-file=/tmp/sa_key.json
             rm /tmp/sa_key.json
             gcloud config set project code-vps-360503
