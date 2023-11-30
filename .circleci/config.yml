@@ -76,7 +76,7 @@ jobs:
             gcloud auth activate-service-account --key-file=/tmp/sa_key.json
             rm /tmp/sa_key.json
             gcloud config set project code-vps-360503
-            gcloud --quiet compute scp ./docker-compose.yml instance-1:~/dev/gcs  --zone=us-central1-a --strict-host-key-checking=no 
+            gcloud --quiet compute scp ./docker-compose.yml instance-1:/home/thallescarvalho12/dev/gcs  --zone=us-central1-a --strict-host-key-checking=no 
             gcloud --quiet compute ssh --zone "us-central1-a" "instance-1" --project "code-vps-360503" --strict-host-key-checking=no --command="echo workss"
             # set AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY 
             # set AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID 
