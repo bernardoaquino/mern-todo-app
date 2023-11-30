@@ -16,6 +16,8 @@ jobs:
   build-docker-image-front:
     docker:
       - image: "cimg/base:stable"
+    environment:
+      - VITE_API_BASE_URL: https://api-gcs.thallesnc.dev/
     steps:
       - checkout
       - setup_remote_docker:
@@ -77,7 +79,7 @@ jobs:
             rm /tmp/sa_key.json
             gcloud config set project code-vps-360503
             gcloud --quiet compute scp ./docker-compose.yml instance-1:"/home/circleci"  --zone=us-central1-a --strict-host-key-checking=no 
-            gcloud --quiet compute ssh --zone "us-central1-a" "instance-1" --project "code-vps-360503" --strict-host-key-checking=no --command="docker version"
+            gcloud --quiet compute ssh --zone "us-central1-a" "instance-1" --project "code-vps-360503" --strict-host-key-checking=no --command="docker build . --quiet && docker compose restart mern-todo-app-r-api-1 && docker compose restart mern-todo-app-r-front-1"
             # set AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY 
             # set AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID 
             # set AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
