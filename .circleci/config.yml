@@ -72,7 +72,7 @@ jobs:
       - node/install:
           node-version: "18.16"
       - run:
-          name: Build compose and upload to GCP
+          name: Move compose file and upload to GCP
           command: |
             echo $GCLOUD_SERVICE_KEY > /tmp/sa_key.json
             gcloud auth activate-service-account --key-file=/tmp/sa_key.json
