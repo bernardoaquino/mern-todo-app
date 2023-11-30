@@ -7,8 +7,6 @@ jobs:
       - image: "cimg/base:stable"
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: false
       - node/install:
           node-version: "18.16"
       - node/install-packages:
@@ -17,9 +15,11 @@ jobs:
           command: cd ./client && npm run test
   build-docker-image-front:
     docker:
-      - image: circleci/node:12
+      - image: "cimg/base:stable"
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
       - node/install:
           node-version: "18.16"
       - node/install-packages:
