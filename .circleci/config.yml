@@ -42,8 +42,8 @@ jobs:
           node-version: "18.16"
       - node/install-packages:
           app-dir: ~/project/server
-      - run: docker compose up mongo_db
-          command: 
+      - run:
+          command: docker compose up mongo_db
       - run:
           command: cd ./server && npm run test
   build-docker-image-api:
