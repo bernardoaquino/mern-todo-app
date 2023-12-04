@@ -45,7 +45,7 @@ jobs:
       - node/install-packages:
           app-dir: ~/project/server
       - run:
-          command: docker compose up mongo_db -d && cd ./server && npm run test
+          command: docker compose up mongo_db -d && cd ./server && npm run test #npm install
   build-docker-image-api:
     docker:
       - image: "cimg/base:stable"
