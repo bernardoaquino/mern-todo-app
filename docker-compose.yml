@@ -13,19 +13,7 @@ services:
       - my-network
   # Node api service
   api:
-    image: thallesnct/gce-api
-    ports:
-      # local->container
-      - 3030:3030
-    environment:
-      PORT: 3030
-      MONGODB_URI: mongodb://mongo_db:27017/mydb
-    depends_on:
-      - mongo_db
-    networks:
-      - my-network
-  api_test:
-    build: ./server/
+    image: thallesnct/gce-api:latest
     ports:
       # local->container
       - 3030:3030
@@ -37,7 +25,7 @@ services:
     networks:
       - my-network
   front:
-    image: thallesnct/gce-front
+    image: thallesnct/gce-front:latest
     ports:
       - 4173:4173
     environment:
