@@ -2,6 +2,13 @@
 
 A simple To-Do application built using the MERN stack.
 
+## Integrantes
+Bernardo Aquino Capello Coelho
+Guilherme Roberto Ferreira Santos
+Pedro Henrique Fernandes Machado
+Gustavo de Castro Nogueira
+Thalles Nascimento Carvalho
+
 ## Table of Contents
 
 - [MERN To-Do App](#mern-to-do-app)
