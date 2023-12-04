@@ -30,7 +30,7 @@ jobs:
           name: Build docker image
           command: |
             cd ./client
-            docker build -t thallesnct/gce-front -t thallesnct/gce-front:latest .
+            docker build -t thallesnct/gce-front -t thallesnct/gce-front:latest . --no-cache
             echo $DOCKER_PASSWORD | docker login -u thallesnct --password-stdin
             docker push thallesnct/gce-front:latest
   build-and-test-api:
@@ -61,7 +61,7 @@ jobs:
           name: Build docker image
           command: |
             cd ./server
-            docker build -t thallesnct/gce-api -t thallesnct/gce-api:latest .
+            docker build -t thallesnct/gce-api -t thallesnct/gce-api:latest . --no-cache
             echo $DOCKER_PASSWORD | docker login -u thallesnct --password-stdin
             docker push thallesnct/gce-api:latest
   deploy:
