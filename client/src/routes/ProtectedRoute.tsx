@@ -9,7 +9,6 @@ type ProtectedRouteProps = {
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const { session } = useSession();
-    console.log('session > ', session)
     return session?.token ? children : <Navigate to="/login" />;
 };
 
