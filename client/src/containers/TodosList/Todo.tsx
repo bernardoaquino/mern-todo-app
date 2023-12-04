@@ -1,38 +1,47 @@
-import React from 'react';
+import React from "react";
 
 /** Assets */
-import Check from 'assets/check.svg';
-import Trash from 'assets/trash.svg';
+// import Check from "assets/check.svg";
+// import Trash from "../../assets/trash.svg";
 
 /** Styles */
-import * as El from './Todo.styles';
+import * as El from "./Todo.styles";
 
 /** Types */
-import { Todo as TodoBaseProps } from 'hooks/useCreateTodo';
-import Button from '~/components/Atoms/Button';
+import { Todo as TodoBaseProps } from "hooks/useCreateTodo";
+import Button from "~/components/Atoms/Button";
 
 type TodoProps = TodoBaseProps & {
-    _id: string;
-}
+  _id: string;
+};
 
+import useDeleteTodo from "hooks/useDeleteTodo";
 const Todo = ({ text, completed, _id }: TodoProps) => {
-    const handleDeletion = () => {
-        console.log(`Integrate delete for ${_id}`)
-    }
-    
-    const handleCompletion = () => {
-        console.log(`Integrate completion for ${_id}`)
-    }
+  const { deleteTodo } = useDeleteTodo();
+  const handleDeletion = async () => {
+    const { error } = await deleteTodo(_id);
 
-    return (
-        <El.Container>
-            <El.Text>{text}</El.Text>
-            <El.Actions>
-                {!completed && <Button icon={Check} onClick={handleCompletion} />}
-                <Button color='danger' icon={Trash} onClick={handleDeletion} />
-            </El.Actions>
-        </El.Container>
-    );  
-}
+    if (!error) {
+      const event = new Event("createdTodo");
+      document.dispatchEvent(event);
+    }
+  };
+
+  const handleCompletion = () => {
+    console.log(`Integrate completion for ${_id}`);
+  };
+
+  return (
+    <El.Container>
+      <El.Text>{text}</El.Text>
+      <El.Actions>
+        {!completed && <Button onClick={handleCompletion}>Editar</Button>}
+        <Button color="danger" onClick={handleDeletion}>
+          Excluir
+        </Button>
+      </El.Actions>
+    </El.Container>
+  );
+};
 
 export default Todo;
