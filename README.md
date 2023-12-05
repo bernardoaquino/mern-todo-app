@@ -1,6 +1,6 @@
 # MERN To-Do App
 
-A simple To-Do application built using the MERN stack.
+A simple To-Do application built using the MERN stack. 
 
 ## Table of Contents
 
