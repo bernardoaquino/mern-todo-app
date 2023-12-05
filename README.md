@@ -7,6 +7,7 @@ A simple To-Do application built using the MERN stack.
 - [MERN To-Do App](#mern-to-do-app)
   - [Table of Contents](#table-of-contents)
   - [About](#about)
+  - [Authors](#authors)
   - [Features](#features)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
@@ -16,6 +17,13 @@ A simple To-Do application built using the MERN stack.
 ## About
 
 This project is a basic To-Do application implemented using the MERN (MongoDB, Express.js, React, Node.js) stack. It allows users to create, read, update, and delete tasks.
+
+## Authors
+  - Bernardo Aquino Capello Coelho
+  - Guilherme Roberto Ferreira Santos
+  - Gustavo de Castro Nogueira
+  - Pedro Henrique Fernandes Machado
+  - Thalles Nascimento Carvalho
 
 ## Features
 
