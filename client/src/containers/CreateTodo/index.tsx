@@ -45,7 +45,7 @@ const CreateTodo = () => {
   return (
     <El.Container>
       <Button color="secondary" onClick={openModal}>
-        criar todo
+        Criar todo
       </Button>
       <Modal
         title="Criar novo Todo"
