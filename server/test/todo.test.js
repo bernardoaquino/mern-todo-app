@@ -2,22 +2,23 @@ const request = require('supertest');
 const express = require('express');
 const router = require('../src/router');
 const mongoose = require('mongoose');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const app = express();
 app.use(express.json());
 app.use(router);
 
-// Connect to the database and start the server
+let mongoServer = new MongoMemoryServer();
+
 beforeAll(async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI);
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-  }
+  await mongoServer.start();
+  const mongoUri = await mongoServer.getUri();
+  await mongoose.connect(mongoUri);
 });
 
 afterAll(async () => {
   await mongoose.connection.close();
+  await mongoServer.stop();
 });
 
 describe('API Routes', () => {
@@ -38,7 +39,7 @@ describe('API Routes', () => {
       .send({ text: 'Test Todo' });
 
     expect(response.statusCode).toBe(201);
-    todoId = response.body._id; // Save the ID of the created todo
+    todoId = response.body._id;
   });
 
   test('GET /todos', async () => {

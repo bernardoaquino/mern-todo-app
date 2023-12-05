@@ -30,7 +30,7 @@ jobs:
           name: Build docker image
           command: |
             cd ./client
-            docker build -t thallesnct/gce-front -t thallesnct/gce-front:latest .
+            docker build -t thallesnct/gce-front -t thallesnct/gce-front:latest . --no-cache
             echo $DOCKER_PASSWORD | docker login -u thallesnct --password-stdin
             docker push thallesnct/gce-front:latest
   build-and-test-api:
@@ -61,7 +61,7 @@ jobs:
           name: Build docker image
           command: |
             cd ./server
-            docker build -t thallesnct/gce-api -t thallesnct/gce-api:latest .
+            docker build -t thallesnct/gce-api -t thallesnct/gce-api:latest . --no-cache
             echo $DOCKER_PASSWORD | docker login -u thallesnct --password-stdin
             docker push thallesnct/gce-api:latest
   deploy:
@@ -81,7 +81,7 @@ jobs:
             rm /tmp/sa_key.json
             gcloud config set project code-vps-360503
             gcloud --quiet compute scp ./docker-compose.yml instance-1:"/home/circleci"  --zone=us-central1-a --strict-host-key-checking=no 
-            gcloud --quiet compute ssh --zone "us-central1-a" "instance-1" --project "code-vps-360503" --strict-host-key-checking=no --user-output-enabled --command="cd /home/circleci && pwd && docker-compose build api front && docker-compose up -d"
+            gcloud --quiet compute ssh --zone "us-central1-a" "instance-1" --project "code-vps-360503" --strict-host-key-checking=no --user-output-enabled --command="cd /home/circleci && docker-compose pull && docker-compose up -d --build"
 workflows:
   build_test_deploy:
     jobs:
@@ -92,7 +92,7 @@ workflows:
             - build-and-test-front
       - build-docker-image-api:
           requires:
-            - build-and-test-front
+            - build-and-test-api
       - deploy:
           requires:
             - build-docker-image-api
