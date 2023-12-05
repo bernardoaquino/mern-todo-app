@@ -35,7 +35,6 @@ const Todo = ({ text, completed, _id }: TodoProps) => {
     <El.Container>
       <El.Text>{text}</El.Text>
       <El.Actions>
-        {!completed && <Button onClick={handleCompletion}>Editar</Button>}
         <Button color="danger" onClick={handleDeletion}>
           Excluir
         </Button>
