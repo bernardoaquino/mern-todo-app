@@ -1,21 +1,20 @@
 import React from "react";
 
-/** Assets */
-// import Check from "assets/check.svg";
-// import Trash from "../../assets/trash.svg";
-
 /** Styles */
 import * as El from "./Todo.styles";
 
-/** Types */
-import { Todo as TodoBaseProps } from "hooks/useCreateTodo";
+/** Components */
 import Button from "~/components/Atoms/Button";
+
+/** Hooks */
+import { Todo as TodoBaseProps } from "hooks/useCreateTodo";
+import useDeleteTodo from "hooks/useDeleteTodo";
 
 type TodoProps = TodoBaseProps & {
   _id: string;
 };
 
-import useDeleteTodo from "hooks/useDeleteTodo";
+
 const Todo = ({ text, completed, _id }: TodoProps) => {
   const { deleteTodo } = useDeleteTodo();
   const handleDeletion = async () => {
